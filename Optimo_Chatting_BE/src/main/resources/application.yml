@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: Optimo_Chatting_BE
+
+  config:
+    import: optional:file:.env[.properties]
+
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+      auto-index-creation: true
+
+jwt:
+  secret: "your-very-secure-and-long-secret-key-at-least-256-bit"
+  access-token-validity-in-seconds: 1800  # 30 minutes

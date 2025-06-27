@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.5.3'
+    id 'io.spring.dependency-management' version '1.1.7'
+    // Azure Functions 플러그인 제거
+}
+
+group = 'org.inhahackers'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    // MongoDB + WebFlux 의존성 유지
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // 나머지 의존성은 유지
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+}
+
+
+// 실행 가능 JAR 설정
+bootJar {
+    archiveFileName = "optimo-user-be.jar"
+    launchScript() // 실행 스크립트 포함
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+task buildDockerImage(type: Exec) {
+    dependsOn bootJar
+    commandLine 'docker', 'build', '-t', 'optimo-user-be:latest', '.'
+}
+
+bootRun {
+    systemProperty 'spring.profiles.active', 'prod'
+}

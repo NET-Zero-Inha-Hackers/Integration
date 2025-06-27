@@ -1,0 +1,7 @@
+fastapi
+python-multipart
+sentencepiece
+tensorflow
+tf-keras
+transformers
+uvicorn[standard]

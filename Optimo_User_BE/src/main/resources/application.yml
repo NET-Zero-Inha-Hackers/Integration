@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: Optimo_User_BE
+
+  config:
+    import: optional:file:.env[.properties]
+
+  datasource:
+    url: jdbc:postgresql://optimo-postgres.postgres.database.azure.com:5432/postgres
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+
+jwt:
+  secret: "testtesttesttesttesttesttesttesttest"
+  access-token-validity-in-seconds: 600000  # 30 minutes
